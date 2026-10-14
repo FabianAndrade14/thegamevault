@@ -1,0 +1,847 @@
+<div class="dashboard">
+
+  @if (authService.user$ | async; as user) {
+
+  <!-- ======================= -->
+  <!-- HEADER -->
+  <!-- ======================= -->
+
+  <header class="dashboard-header">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        🎮
+      </div>
+
+      <div>
+
+        <span class="eyebrow">
+          THE GAMING VAULT
+        </span>
+
+        <h1>
+          Mi colección
+        </h1>
+
+      </div>
+
+    </div>
+
+
+    <div class="profile">
+
+      <div class="profile-info">
+
+        <strong>
+          {{ user.displayName || 'Jugador' }}
+        </strong>
+
+        <span>
+          {{ user.email }}
+        </span>
+
+      </div>
+
+
+      <div class="avatar">
+
+        @if (
+        user.photoURL &&
+        !profileImageFailed
+        ) {
+
+        <img [src]="user.photoURL" [alt]="user.displayName || 'Usuario'" referrerpolicy="no-referrer"
+          (error)="onProfileImageError()">
+
+        } @else {
+
+        <span>
+          {{ getInitial(user.displayName) }}
+        </span>
+
+        }
+
+      </div>
+
+
+      <button type="button" class="logout-button" (click)="logout()">
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- ======================= -->
+    <!-- INTRO -->
+    <!-- ======================= -->
+
+    <section class="hero">
+
+      <div>
+
+        <span class="eyebrow">
+          WISHLIST
+        </span>
+
+        <h2>
+          ¿Qué juego estás buscando?
+        </h2>
+
+        <p>
+          Busca un videojuego, selecciona la plataforma
+          que quieres coleccionar y agrégalo a tu Vault.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- BUSCADOR -->
+    <!-- ======================= -->
+
+    <section class="search-section">
+
+      <div class="search-bar">
+
+        <input #gameSearch type="search" placeholder="Final Fantasy VII, Zelda, Spider-Man..." autocomplete="off"
+          (keyup.enter)="searchGames(gameSearch.value)">
+
+
+        <button type="button" class="search-button" [disabled]="searching" (click)="searchGames(gameSearch.value)">
+
+          @if (searching) {
+
+          Buscando...
+
+          } @else {
+
+          Buscar
+
+          }
+
+        </button>
+
+      </div>
+
+
+      @if (searchError) {
+
+      <div class="message error">
+        {{ searchError }}
+      </div>
+
+      }
+
+
+      @if (saveMessage) {
+
+      <div class="message success">
+        {{ saveMessage }}
+      </div>
+
+      }
+
+
+      @if (saveError) {
+
+      <div class="message error">
+        {{ saveError }}
+      </div>
+
+      }
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- RESULTADOS -->
+    <!-- ======================= -->
+
+    @if (searchResults.length > 0) {
+
+    <section class="results-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="eyebrow">
+            RESULTADOS
+          </span>
+
+          <h2>
+            Juegos encontrados
+          </h2>
+
+        </div>
+
+
+        <span class="result-count">
+          {{ searchResults.length }} resultados
+        </span>
+
+      </div>
+
+
+      <div class="game-grid search-grid">
+
+        @for (
+        game of searchResults;
+        track game.id
+        ) {
+
+        <article class="game-card search-card">
+
+
+          <!-- PORTADA -->
+
+          <div class="game-image">
+
+            @if (
+            game.background_image &&
+            !hasSearchImageError(game.id)
+            ) {
+
+            <img [src]="game.background_image" [alt]="game.name" loading="lazy" (error)="onSearchImageError(game.id)">
+
+            } @else {
+
+            <div class="no-image">
+
+              <span>
+                🎮
+              </span>
+
+              <small>
+                Sin imagen
+              </small>
+
+            </div>
+
+            }
+
+          </div>
+
+
+          <!-- INFORMACIÓN -->
+
+          <div class="game-content">
+
+            <h3>
+              {{ game.name }}
+            </h3>
+
+
+            @if (game.released) {
+
+            <p class="release-date">
+              Lanzamiento:
+              {{ game.released }}
+            </p>
+
+            }
+
+
+            @if (
+            game.platforms &&
+            game.platforms.length > 0
+            ) {
+
+            <label class="field-label">
+              Plataforma
+            </label>
+
+
+            <select #platform>
+
+              @for (
+              item of game.platforms;
+              track item.platform.id
+              ) {
+
+              <option [value]="item.platform.name">
+                {{ item.platform.name }}
+              </option>
+
+              }
+
+            </select>
+
+
+            <button type="button" class="add-button" [disabled]="addingGameId !== null" (click)="
+                        addGame(
+                          game,
+                          platform.value
+                        )
+                      ">
+
+              @if (
+              addingGameId === game.id
+              ) {
+
+              Guardando...
+
+              } @else {
+
+              + Añadir a Wishlist
+
+              }
+
+            </button>
+
+            } @else {
+
+            <p class="no-platform">
+              No hay plataformas disponibles.
+            </p>
+
+            }
+
+          </div>
+
+        </article>
+
+        }
+
+      </div>
+
+    </section>
+
+    } @else if (
+    hasSearched &&
+    !searching &&
+    !searchError
+    ) {
+
+    <div class="empty-search">
+
+      <span>
+        🎮
+      </span>
+
+      <h3>
+        No encontramos juegos
+      </h3>
+
+      <p>
+        Intenta buscar con otro nombre.
+      </p>
+
+    </div>
+
+    }
+
+
+    <!-- ===================================== -->
+    <!-- MI VAULT -->
+    <!-- ===================================== -->
+
+    <section class="vault-library">
+
+      <div class="library-title">
+
+        <div>
+
+          <span class="eyebrow">
+            MI VAULT
+          </span>
+
+          <h2>
+            Mis juegos
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- MENU STATUS -->
+      <!-- ================================= -->
+
+      @if (
+      gameCounts$ | async;
+      as counts
+      ) {
+
+      <nav class="vault-tabs">
+
+        <button type="button" [class.active]="
+          libraryFilter === 'ALL'
+        " (click)="
+          setLibraryFilter('ALL')
+        ">
+
+          Todos
+
+          <span>
+            {{ counts.all }}
+          </span>
+
+        </button>
+
+
+        <button type="button" [class.active]="
+          libraryFilter === 'WISHLIST'
+        " (click)="
+          setLibraryFilter('WISHLIST')
+        ">
+
+          Wishlist
+
+          <span>
+            {{ counts.wishlist }}
+          </span>
+
+        </button>
+
+
+        <button type="button" [class.active]="
+          libraryFilter === 'OWNED'
+        " (click)="
+          setLibraryFilter('OWNED')
+        ">
+
+          Comprados
+
+          <span>
+            {{ counts.owned }}
+          </span>
+
+        </button>
+
+      </nav>
+
+      }
+
+
+      <!-- ================================= -->
+      <!-- CONTROLES -->
+      <!-- ================================= -->
+
+      <div class="library-toolbar">
+
+
+        <!-- PLATAFORMA -->
+
+        <div class="toolbar-field">
+
+          <label>
+            Plataforma
+          </label>
+
+
+          <select #platformSelect (change)="
+          setPlatformFilter(
+            platformSelect.value
+          )
+        ">
+
+            <option value="ALL">
+              Todas las plataformas
+            </option>
+
+
+            @if (
+            platforms$ | async;
+            as platforms
+            ) {
+
+            @for (
+            platform of platforms;
+            track platform
+            ) {
+
+            <option [value]="platform">
+              {{ platform }}
+            </option>
+
+            }
+
+            }
+
+          </select>
+
+        </div>
+
+
+        <!-- ORDEN -->
+
+        <div class="toolbar-field">
+
+          <label>
+            Ordenar por
+          </label>
+
+
+          <select #sortSelect (change)="
+          setSortOption(
+            sortSelect.value
+          )
+        ">
+
+            <option value="NAME_ASC">
+              Nombre A → Z
+            </option>
+
+            <option value="NAME_DESC">
+              Nombre Z → A
+            </option>
+
+            <option value="RELEASE_DESC">
+              Más recientes
+            </option>
+
+            <option value="RELEASE_ASC">
+              Más antiguos
+            </option>
+
+            <option value="PLATFORM">
+              Plataforma
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- VISTA -->
+
+        <div class="view-switcher">
+
+          <button type="button" title="Vista cuadrícula" [class.active]="
+          viewMode === 'GRID'
+        " (click)="
+          setViewMode('GRID')
+        ">
+            ▦
+            <span>
+              Cuadrícula
+            </span>
+          </button>
+
+
+          <button type="button" title="Vista lista" [class.active]="
+          viewMode === 'LIST'
+        " (click)="
+          setViewMode('LIST')
+        ">
+            ☰
+            <span>
+              Lista
+            </span>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- JUEGOS -->
+      <!-- ================================= -->
+
+      @if (
+      filteredGames$ | async;
+      as games
+      ) {
+
+      @if (
+      games.length > 0
+      ) {
+
+      <div class="vault-games" [class.grid-view]="
+          viewMode === 'GRID'
+        " [class.list-view]="
+          viewMode === 'LIST'
+        ">
+
+        @for (
+        game of games;
+        track game.id
+        ) {
+
+        <article class="library-game-card" [class.owned-card]="
+              game.status === 'OWNED'
+            ">
+
+
+          <!-- PORTADA -->
+
+          <div class="library-cover">
+
+            @if (
+            game.coverUrl &&
+            !hasSavedImageError(
+            game.rawgId
+            )
+            ) {
+
+            <img [src]="game.coverUrl" [alt]="game.name" loading="lazy" (error)="
+                    onSavedImageError(
+                      game.rawgId
+                    )
+                  ">
+
+            } @else {
+
+            <div class="no-image">
+
+              <span>
+                🎮
+              </span>
+
+              <small>
+                Sin imagen
+              </small>
+
+            </div>
+
+            }
+
+
+            @if (
+            game.status === 'OWNED'
+            ) {
+
+            <div class="owned-badge">
+              ✓ Comprado
+            </div>
+
+            }
+
+          </div>
+
+
+          <!-- INFORMACIÓN -->
+
+          <div class="library-game-content">
+
+            <div class="card-top">
+
+              <div>
+
+                <span class="platform-label">
+                  {{ game.platformName }}
+                </span>
+
+                <h3>
+                  {{ game.name }}
+                </h3>
+
+              </div>
+
+
+              @if (
+              game.releaseDate
+              ) {
+
+              <span class="game-release">
+                {{ game.releaseDate }}
+              </span>
+
+              }
+
+            </div>
+
+
+            <div class="tags">
+
+              @if (
+              game.status === 'OWNED'
+              ) {
+
+              <span class="tag owned">
+                Comprado
+              </span>
+
+              } @else {
+
+              <span class="tag wishlist">
+                Wishlist
+              </span>
+
+              }
+
+
+              <span class="tag">
+                {{ game.format }}
+              </span>
+
+
+              @if (game.condition) {
+
+              <span class="tag">
+                {{ game.condition }}
+              </span>
+
+              }
+
+
+              @if (game.priority) {
+
+              <span class="tag priority">
+                {{ game.priority }}
+              </span>
+
+              }
+
+            </div>
+
+
+            <!-- ACCIONES -->
+
+            <div class="library-actions">
+
+
+              <!-- COMPRADO -->
+
+              <label class="purchase-check" [class.purchased]="
+                    game.status === 'OWNED'
+                  ">
+
+                <input type="checkbox" [checked]="
+                      game.status === 'OWNED'
+                    " [disabled]="
+                      updatingGameId !== null
+                    " (change)="
+                      onPurchasedChange(
+                        game,
+                        $event
+                      )
+                    ">
+
+                <span class="check-box">
+                </span>
+
+
+                <span class="check-label">
+
+                  @if (
+                  game.status === 'OWNED'
+                  ) {
+
+                  Comprado
+
+                  } @else {
+
+                  Marcar comprado
+
+                  }
+
+                </span>
+
+              </label>
+
+
+              <!-- ELIMINAR -->
+
+              <button type="button" class="delete-button" [disabled]="
+                    deletingGameId !== null
+                  " (click)="
+                    deleteGame(game)
+                  ">
+
+                @if (
+                deletingGameId === game.id
+                ) {
+
+                Eliminando...
+
+                } @else {
+
+                Eliminar
+
+                }
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+        }
+
+      </div>
+
+      } @else {
+
+      <div class="empty-library">
+
+        <div>
+          🎮
+        </div>
+
+        @if (
+        libraryFilter === 'OWNED'
+        ) {
+
+        <h3>
+          No tienes juegos comprados
+        </h3>
+
+        <p>
+          Marca un juego como comprado
+          y aparecerá aquí.
+        </p>
+
+        } @else if (
+        libraryFilter === 'WISHLIST'
+        ) {
+
+        <h3>
+          No tienes juegos pendientes
+        </h3>
+
+        <p>
+          Agrega juegos a tu Wishlist
+          para verlos aquí.
+        </p>
+
+        } @else {
+
+        <h3>
+          Tu Vault está vacío
+        </h3>
+
+        }
+
+      </div>
+
+      }
+
+      }
+
+    </section>
+
+
+    <!-- ======================= -->
+    <!-- RAWG ATTRIBUTION -->
+    <!-- ======================= -->
+
+    <footer>
+
+      <span>
+        Datos e imágenes proporcionados por
+      </span>
+
+      <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">
+        RAWG
+      </a>
+
+    </footer>
+
+  </main>
+
+  }
+
+</div>

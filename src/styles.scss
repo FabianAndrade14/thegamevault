@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-app:
+    "Aptos",
+    "Aptos Display",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--font-app);
+
+  font-size: 16px;
+
+  font-synthesis: none;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+option,
+textarea {
+  font-family: var(--font-app);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family:
+    "Aptos Display",
+    "Aptos",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  font-weight: 600;
+}

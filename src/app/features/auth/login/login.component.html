@@ -1,0 +1,56 @@
+<div class="login-page">
+
+  <div class="login-card">
+
+    <div class="vault-logo">
+      🎮
+    </div>
+
+    <h1>
+      The Gaming Vault
+    </h1>
+
+    <p class="subtitle">
+      Tu colección.
+      Tu wishlist.
+      Tu bóveda.
+    </p>
+
+    <button
+      type="button"
+      class="google-button"
+      [disabled]="loading"
+      (click)="loginWithGoogle()"
+    >
+
+      @if (loading) {
+
+        <span>
+          Iniciando sesión...
+        </span>
+
+      } @else {
+
+        <span class="google-icon">
+          G
+        </span>
+
+        <span>
+          Continuar con Google
+        </span>
+
+      }
+
+    </button>
+
+    @if (errorMessage) {
+
+      <p class="error-message">
+        {{ errorMessage }}
+      </p>
+
+    }
+
+  </div>
+
+</div>

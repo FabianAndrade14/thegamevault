@@ -1,0 +1,158 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.login-page {
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #1d2740 0%,
+      #111827 45%,
+      #090d15 100%
+    );
+
+  color: #ffffff;
+
+}
+
+.login-card {
+
+  width: 100%;
+  max-width: 420px;
+
+  padding: 42px 36px;
+
+  text-align: center;
+
+  border:
+    1px solid #293244;
+
+  border-radius: 20px;
+
+  background: #151b27;
+
+  box-shadow:
+    0 30px 70px
+    rgba(0, 0, 0, 0.35);
+
+}
+
+.vault-logo {
+
+  width: 76px;
+  height: 76px;
+
+  margin:
+    0 auto 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #212a3b;
+
+  font-size: 34px;
+
+}
+
+h1 {
+
+  margin: 0;
+
+  font-size: 30px;
+
+}
+
+.subtitle {
+
+  margin:
+    12px 0 32px;
+
+  color: #8f9bb3;
+
+  line-height: 1.6;
+
+}
+
+.google-button {
+
+  width: 100%;
+
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding:
+    0 20px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+}
+
+.google-icon {
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #4285f4;
+
+  font-size: 18px;
+  font-weight: 800;
+
+}
+
+.error-message {
+
+  margin-top: 18px;
+
+  color: #ff7b7b;
+
+  font-size: 13px;
+
+}
