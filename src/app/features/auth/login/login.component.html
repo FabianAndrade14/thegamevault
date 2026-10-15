@@ -1,56 +1,145 @@
-<div class="login-page">
+<div
+  class="login-page"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="resetParallax()"
+>
 
-  <div class="login-card">
+  <!-- ================================= -->
+  <!-- BACKGROUND -->
+  <!-- ================================= -->
 
-    <div class="vault-logo">
-      🎮
-    </div>
+  <div class="background-wall">
 
-    <h1>
-      The Gaming Vault
-    </h1>
 
-    <p class="subtitle">
-      Tu colección.
-      Tu wishlist.
-      Tu bóveda.
-    </p>
-
-    <button
-      type="button"
-      class="google-button"
-      [disabled]="loading"
-      (click)="loginWithGoogle()"
+    <div
+      class="covers-scene"
+      [style.--parallax-x]="
+        parallaxX + 'px'
+      "
+      [style.--parallax-y]="
+        parallaxY + 'px'
+      "
     >
 
-      @if (loading) {
+      @for (
+        column of backgroundColumns;
+        track $index
+      ) {
 
-        <span>
-          Iniciando sesión...
-        </span>
+        <div
+          class="covers-column"
+          [class.reverse]="
+            $index % 2 !== 0
+          "
+        >
 
-      } @else {
+          @for (
+            cover of column;
+            track $index
+          ) {
 
-        <span class="google-icon">
-          G
-        </span>
+            <div class="cover-card">
 
-        <span>
-          Continuar con Google
-        </span>
+              <img
+                [src]="cover"
+                alt=""
+                loading="lazy"
+              >
+
+            </div>
+
+          }
+
+        </div>
 
       }
 
-    </button>
+    </div>
 
-    @if (errorMessage) {
 
-      <p class="error-message">
-        {{ errorMessage }}
-      </p>
+    <div class="background-overlay">
+    </div>
 
-    }
+
+    <div class="background-gradient">
+    </div>
 
   </div>
+
+
+  <!-- ================================= -->
+  <!-- LOGIN -->
+  <!-- ================================= -->
+
+  <main class="login-content">
+
+    <section class="login-card">
+
+
+      <div class="vault-logo">
+        🎮
+      </div>
+
+
+      <span class="eyebrow">
+        THE GAMING VAULT
+      </span>
+
+
+      <h1>
+        Tu colección.<br>
+        Tu wishlist.<br>
+        Tu bóveda.
+      </h1>
+
+
+      <p class="subtitle">
+
+        Organiza los juegos que quieres,
+        registra los que ya compraste
+        y construye tu colección.
+
+      </p>
+
+
+      <button
+        type="button"
+        class="google-button"
+        [disabled]="loading"
+        (click)="loginWithGoogle()"
+      >
+
+        @if (loading) {
+
+          <span>
+            Iniciando sesión...
+          </span>
+
+        } @else {
+
+          <span class="google-icon">
+            G
+          </span>
+
+          <span>
+            Continuar con Google
+          </span>
+
+        }
+
+      </button>
+
+
+      @if (errorMessage) {
+
+        <p class="error-message">
+          {{ errorMessage }}
+        </p>
+
+      }
+
+    </section>
+
+  </main>
 
 </div>
