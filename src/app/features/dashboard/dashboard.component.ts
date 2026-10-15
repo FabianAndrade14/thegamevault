@@ -8,10 +8,6 @@ import {
 } from '@angular/common';
 
 import {
-  Router
-} from '@angular/router';
-
-import {
   BehaviorSubject,
   combineLatest,
   map
@@ -26,16 +22,13 @@ import {
 } from '../../core/services/vault.service';
 
 import {
-  RawgService
-} from '../../core/services/rawg.service';
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import {
   VaultGame
 } from '../../core/models/vault-game.model';
-
-import {
-  RawgGame
-} from '../../core/models/rawg-game.model';
 
 
 type LibraryFilter =
@@ -63,7 +56,8 @@ type SortOption =
   standalone: true,
 
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
 
   templateUrl: './dashboard.html',
@@ -81,9 +75,6 @@ export class Dashboard {
 
   private readonly vaultService =
     inject(VaultService);
-
-  private readonly rawgService =
-    inject(RawgService);
 
   private readonly router =
     inject(Router);
@@ -278,25 +269,6 @@ export class Dashboard {
     );
 
 
-  // ========================================
-  // RAWG
-  // ========================================
-
-  searchResults: RawgGame[] = [];
-
-  searching = false;
-
-  searchError = '';
-
-  hasSearched = false;
-
-
-  // ========================================
-  // GUARDAR
-  // ========================================
-
-  addingGameId: number | null =
-    null;
 
   saveMessage = '';
 
@@ -324,9 +296,6 @@ export class Dashboard {
   // ========================================
 
   profileImageFailed = false;
-
-  searchImageErrors =
-    new Set<number>();
 
   savedImageErrors =
     new Set<number>();
@@ -503,164 +472,6 @@ export class Dashboard {
       : dateA - dateB;
 
   }
-
-
-  // ========================================
-  // BUSCAR RAWG
-  // ========================================
-
-  searchGames(
-    value: string
-  ): void {
-
-    const search =
-      value.trim();
-
-
-    if (!search) {
-
-      this.searchError =
-        'Escribe el nombre de un juego.';
-
-      return;
-
-    }
-
-
-    this.searching = true;
-
-    this.searchError = '';
-
-    this.saveMessage = '';
-
-    this.saveError = '';
-
-    this.searchResults = [];
-
-    this.hasSearched = true;
-
-
-    this.rawgService
-      .searchGames(search)
-      .subscribe({
-
-        next: response => {
-
-          this.searchResults =
-            response.results;
-
-          this.searching = false;
-
-        },
-
-        error: error => {
-
-          console.error(
-            'Error buscando juegos:',
-            error
-          );
-
-          this.searchError =
-            'No fue posible buscar juegos.';
-
-          this.searching = false;
-
-        }
-
-      });
-
-  }
-
-
-  // ========================================
-  // AGREGAR JUEGO
-  // ========================================
-
-  async addGame(
-    rawgGame: RawgGame,
-    platformName: string
-  ): Promise<void> {
-
-    if (!platformName) {
-      return;
-    }
-
-
-    if (
-      this.addingGameId !== null
-    ) {
-
-      return;
-
-    }
-
-
-    this.addingGameId =
-      rawgGame.id;
-
-    this.saveMessage = '';
-
-    this.saveError = '';
-
-
-    const game: VaultGame = {
-
-      rawgId:
-        rawgGame.id,
-
-      name:
-        rawgGame.name,
-
-      coverUrl:
-        rawgGame.background_image,
-
-      releaseDate:
-        rawgGame.released,
-
-      platformName,
-
-      status:
-        'WISHLIST',
-
-      format:
-        'PHYSICAL',
-
-      condition:
-        'CIB',
-
-      priority:
-        'MEDIUM'
-
-    };
-
-
-    try {
-
-      await this.vaultService
-        .addGame(game);
-
-
-      this.saveMessage =
-        `${rawgGame.name} fue agregado a tu Wishlist.`;
-
-    } catch (error) {
-
-      console.error(
-        'Error guardando juego:',
-        error
-      );
-
-      this.saveError =
-        'No fue posible guardar el juego.';
-
-    } finally {
-
-      this.addingGameId = null;
-
-    }
-
-  }
-
 
   // ========================================
   // WISHLIST / OWNED
@@ -846,27 +657,6 @@ export class Dashboard {
       .toUpperCase() || 'U';
 
   }
-
-
-  onSearchImageError(
-    gameId: number
-  ): void {
-
-    this.searchImageErrors
-      .add(gameId);
-
-  }
-
-
-  hasSearchImageError(
-    gameId: number
-  ): boolean {
-
-    return this.searchImageErrors
-      .has(gameId);
-
-  }
-
 
   onSavedImageError(
     gameId: number

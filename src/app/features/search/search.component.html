@@ -1,0 +1,340 @@
+<div class="search-page">
+
+  <!-- =========================== -->
+  <!-- HEADER -->
+  <!-- =========================== -->
+
+  <header>
+
+    <div class="brand">
+
+      <span class="brand-mark">
+        🎮
+      </span>
+
+      <div>
+
+        <span class="eyebrow">
+          THE GAMING VAULT
+        </span>
+
+        <h1>
+          Agregar juegos
+        </h1>
+
+      </div>
+
+    </div>
+
+
+    <a
+      routerLink="/dashboard"
+      class="vault-button"
+    >
+      ← Mi Vault
+    </a>
+
+  </header>
+
+
+  <main>
+
+    <!-- =========================== -->
+    <!-- HERO -->
+    <!-- =========================== -->
+
+    <section class="hero">
+
+      <span class="eyebrow">
+        DESCUBRIR
+      </span>
+
+      <h2>
+        Busca tu próximo juego
+      </h2>
+
+      <p>
+        Busca un título, selecciona la plataforma
+        y añádelo a tu Wishlist.
+      </p>
+
+    </section>
+
+
+    <!-- =========================== -->
+    <!-- SEARCH BAR -->
+    <!-- =========================== -->
+
+    <section class="search-box">
+
+      <div class="search-bar">
+
+        <input
+          #gameSearch
+          type="search"
+          placeholder="Final Fantasy, Zelda, Spider-Man..."
+          autocomplete="off"
+          (keyup.enter)="searchGames(gameSearch.value)"
+        >
+
+        <button
+          type="button"
+          [disabled]="searching"
+          (click)="searchGames(gameSearch.value)"
+        >
+
+          @if (searching) {
+
+            Buscando...
+
+          } @else {
+
+            Buscar
+
+          }
+
+        </button>
+
+      </div>
+
+
+      @if (searchError) {
+
+        <div class="message error">
+          {{ searchError }}
+        </div>
+
+      }
+
+
+      @if (saveMessage) {
+
+        <div class="message success">
+          {{ saveMessage }}
+        </div>
+
+      }
+
+
+      @if (saveError) {
+
+        <div class="message error">
+          {{ saveError }}
+        </div>
+
+      }
+
+    </section>
+
+
+    <!-- =========================== -->
+    <!-- RESULTS -->
+    <!-- =========================== -->
+
+    @if (
+      searchResults.length > 0
+    ) {
+
+      <section class="results">
+
+        <div class="results-header">
+
+          <div>
+
+            <span class="eyebrow">
+              RESULTADOS
+            </span>
+
+            <h2>
+              Juegos encontrados
+            </h2>
+
+          </div>
+
+          <span>
+            {{ searchResults.length }}
+            resultados
+          </span>
+
+        </div>
+
+
+        <div class="game-grid">
+
+          @for (
+            game of searchResults;
+            track game.id
+          ) {
+
+            <article class="game-card">
+
+
+              <!-- IMAGE -->
+
+              <div class="game-image">
+
+                @if (
+                  game.background_image &&
+                  !hasImageError(game.id)
+                ) {
+
+                  <img
+                    [src]="game.background_image"
+                    [alt]="game.name"
+                    loading="lazy"
+                    (error)="onImageError(game.id)"
+                  >
+
+                } @else {
+
+                  <div class="no-image">
+
+                    <span>
+                      🎮
+                    </span>
+
+                    <small>
+                      Sin imagen
+                    </small>
+
+                  </div>
+
+                }
+
+              </div>
+
+
+              <!-- INFO -->
+
+              <div class="game-content">
+
+                <h3>
+                  {{ game.name }}
+                </h3>
+
+
+                @if (game.released) {
+
+                  <p class="release-date">
+                    {{ game.released }}
+                  </p>
+
+                }
+
+
+                @if (
+                  game.platforms &&
+                  game.platforms.length > 0
+                ) {
+
+                  <label>
+                    Plataforma
+                  </label>
+
+
+                  <select #platform>
+
+                    @for (
+                      item of game.platforms;
+                      track item.platform.id
+                    ) {
+
+                      <option
+                        [value]="item.platform.name"
+                      >
+                        {{ item.platform.name }}
+                      </option>
+
+                    }
+
+                  </select>
+
+
+                  <button
+                    type="button"
+                    class="add-button"
+                    [disabled]="
+                      addingGameId !== null
+                    "
+                    (click)="
+                      addGame(
+                        game,
+                        platform.value
+                      )
+                    "
+                  >
+
+                    @if (
+                      addingGameId === game.id
+                    ) {
+
+                      Guardando...
+
+                    } @else {
+
+                      + Añadir a Wishlist
+
+                    }
+
+                  </button>
+
+                } @else {
+
+                  <p class="no-platform">
+                    Sin plataformas disponibles.
+                  </p>
+
+                }
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      </section>
+
+    } @else if (
+      hasSearched &&
+      !searching &&
+      !searchError
+    ) {
+
+      <div class="empty">
+
+        <span>
+          🎮
+        </span>
+
+        <h3>
+          No encontramos resultados
+        </h3>
+
+        <p>
+          Intenta buscar utilizando otro nombre.
+        </p>
+
+      </div>
+
+    }
+
+
+    <footer>
+
+      Datos e imágenes proporcionados por
+
+      <a
+        href="https://rawg.io"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        RAWG
+      </a>
+
+    </footer>
+
+  </main>
+
+</div>

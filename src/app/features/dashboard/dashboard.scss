@@ -2247,3 +2247,495 @@ footer {
   }
 
 }
+
+.library-title {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 22px;
+
+
+  .library-heading {
+
+    min-width: 0;
+
+  }
+
+
+  h2 {
+
+    margin: 0;
+
+    font-family:
+      "Aptos Display",
+      "Aptos",
+      "Segoe UI",
+      sans-serif;
+
+    font-size: 28px;
+    font-weight: 600;
+
+    line-height: 1.15;
+
+  }
+
+}
+
+// =====================================
+// ADD GAME
+// =====================================
+
+.add-game-button {
+
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding:
+    0 16px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    rgba(
+      123,
+      92,
+      246,
+      0.5
+    );
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6848dc,
+      #7657ea
+    );
+
+  color: #ffffff;
+
+  font-family:
+    "Aptos",
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 4px 14px
+    rgba(
+      77,
+      52,
+      170,
+      0.18
+    );
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+
+  &:hover {
+
+    background:
+      linear-gradient(
+        135deg,
+        #7353e7,
+        #8163f2
+      );
+
+    border-color:
+      rgba(
+        151,
+        126,
+        255,
+        0.7
+      );
+
+    transform:
+      translateY(-1px);
+
+    box-shadow:
+      0 6px 18px
+      rgba(
+        77,
+        52,
+        170,
+        0.27
+      );
+
+  }
+
+
+  &:active {
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+.add-game-icon {
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.12
+    );
+
+  font-size: 19px;
+  font-weight: 400;
+
+  line-height: 1;
+
+}
+
+.library-title {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 22px;
+
+
+  .library-heading {
+
+    min-width: 0;
+
+  }
+
+
+  h2 {
+
+    margin: 0;
+
+    font-family:
+      "Aptos Display",
+      "Aptos",
+      "Segoe UI",
+      sans-serif;
+
+    font-size: 28px;
+    font-weight: 600;
+
+    line-height: 1.15;
+
+  }
+
+}
+
+// =====================================
+// ADD GAME
+// =====================================
+
+.add-game-button {
+
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding:
+    0 16px;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    rgba(
+      123,
+      92,
+      246,
+      0.5
+    );
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6848dc,
+      #7657ea
+    );
+
+  color: #ffffff;
+
+  font-family:
+    "Aptos",
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 4px 14px
+    rgba(
+      77,
+      52,
+      170,
+      0.18
+    );
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+
+  &:hover {
+
+    background:
+      linear-gradient(
+        135deg,
+        #7353e7,
+        #8163f2
+      );
+
+    border-color:
+      rgba(
+        151,
+        126,
+        255,
+        0.7
+      );
+
+    transform:
+      translateY(-1px);
+
+    box-shadow:
+      0 6px 18px
+      rgba(
+        77,
+        52,
+        170,
+        0.27
+      );
+
+  }
+
+
+  &:active {
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+.add-game-icon {
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.12
+    );
+
+  font-size: 19px;
+  font-weight: 400;
+
+  line-height: 1;
+
+}
+
+.vault-tabs {
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 20px;
+
+  padding-bottom: 16px;
+
+  border-bottom:
+    1px solid #263044;
+
+
+  button {
+
+    min-height: 38px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+      0 14px;
+
+    border:
+      1px solid transparent;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #8f9bb0;
+
+    font-family:
+      "Aptos",
+      "Segoe UI",
+      sans-serif;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+
+    span {
+
+      min-width: 24px;
+
+      padding:
+        2px 6px;
+
+      border-radius: 20px;
+
+      background: #202a3b;
+
+      color: #8c98ac;
+
+      font-size: 10px;
+
+      text-align: center;
+
+    }
+
+
+    &:hover {
+
+      background: #171f2d;
+
+      color: #d7dde8;
+
+    }
+
+
+    &.active {
+
+      border-color:
+        rgba(
+          119,
+          90,
+          238,
+          0.45
+        );
+
+      background:
+        rgba(
+          112,
+          78,
+          226,
+          0.15
+        );
+
+      color: #b3a4ff;
+
+
+      span {
+
+        background:
+          rgba(
+            117,
+            83,
+            229,
+            0.3
+          );
+
+        color: #c8beff;
+
+      }
+
+    }
+
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .library-title {
+
+    align-items: flex-start;
+
+    gap: 16px;
+
+  }
+
+
+  .add-game-button {
+
+    padding:
+      0 12px;
+
+
+    > span:last-child {
+
+      display: none;
+
+    }
+
+  }
+
+
+  .add-game-icon {
+
+    background: transparent;
+
+  }
+
+}
