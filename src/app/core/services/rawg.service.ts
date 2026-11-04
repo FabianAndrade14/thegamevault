@@ -37,13 +37,9 @@ export class RawgService {
     const query =
       search.trim();
 
+
     const params =
       new HttpParams()
-
-        .set(
-          'key',
-          environment.rawgApiKey
-        )
 
         .set(
           'search',
@@ -56,12 +52,13 @@ export class RawgService {
         );
 
 
-    return this.http.get<RawgSearchResponse>(
-      `${environment.rawgApiUrl}/games`,
-      {
-        params
-      }
-    );
+    return this.http
+      .get<RawgSearchResponse>(
+        environment.rawgApiUrl,
+        {
+          params
+        }
+      );
 
   }
 
